@@ -40,6 +40,7 @@ class RecyclerFragment : Fragment() {
     var datosPeliculas : PeliculaArray = PeliculaArray()
 
     var contador: Int = 1
+    var busqueda: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,20 +64,37 @@ class RecyclerFragment : Fragment() {
         recyclerViewFragment.layoutManager = LinearLayoutManager(context)
         recyclerViewFragment.layoutManager = GridLayoutManager(context,1)
         recyclerViewFragment.adapter=DatosAdapter(datos,context!!)
-        button.setOnClickListener { botonPulsado() }
+        button.setOnClickListener { botonMasPeliculas() }
+        buttonSearch.setOnClickListener { botonBuscar() }
     }
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
     }
 
-    fun botonPulsado(){
-        solicitudHTTPVolley(prepararUrl("listado", "lego", contador, ""))
+    fun botonBuscar(){
+        contador = 1
+        busqueda = editTextSearch.text.toString()
+        datos = ArrayList()
+        recyclerViewFragment.adapter = DatosAdapter(ArrayList(), context!!)
+        solicitudHTTPVolley(prepararUrl("listado", busqueda, contador, ""))
         contador++
+    }
+
+    fun botonMasPeliculas(){
+        if (!busqueda.equals(""))
+        {
+            solicitudHTTPVolley(prepararUrl("listado", busqueda, contador, ""))
+            contador++
+        }
     }
 
     fun addDatos(lista : PeliculaArray){
         for (item in lista.peliculas!!.iterator()) {
+            if (item.Poster.equals("N/A"))
+                item.Poster = "http://iesayala.ddns.net/jaidis/not-found.jpg"
+            else
+                item.Poster = item.Poster.replace("http://", "https://")
             var pelicula : Pelicula = Pelicula(item.Title, item.Year, item.imdbID, item.Type, item.Poster)
             datos.add(pelicula)
         }
@@ -158,7 +176,7 @@ class RecyclerFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(param1: String) =
                 RecyclerFragment().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)

@@ -6,4 +6,6 @@
     <string name="nav_header_subtitle">manmunlop@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="more_movies">More movies</string>
+    <string name="search">Search</string>
 </resources>

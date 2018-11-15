@@ -2,6 +2,7 @@ package com.ayala.manuel.kotlin_omdb_api
 
 
 import android.content.Context
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +31,10 @@ class DatosAdapter(val items : ArrayList<Pelicula>, val context: Context) : Recy
         holder?.tvDatosB?.text = items.get(position).Year
         holder?.tvDatosC?.text = "Imdb id: " + items.get(position).imdbID
         holder?.ivDatos?.loadUrl(items.get(position).Poster)
-        holder?.itemView?.setOnClickListener(View.OnClickListener { Toast.makeText(context,  items.get(position).imdbID, Toast.LENGTH_SHORT).show() })
+        holder?.ivDatos?.setOnClickListener(View.OnClickListener {
+            Snackbar.make(holder?.view, items.get(position).imdbID, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+        })
     }
     fun ImageView.loadUrl(url: String) {
         Picasso.with(context).load(url).into(this)
@@ -43,6 +47,7 @@ class ViewHolder (view: View) : RecyclerView.ViewHolder(view) {
     val tvDatosB = view.textViewAnno
     val tvDatosC = view.textViewId
     val ivDatos= view.ivDato
+    val view = view
 
 
 
