@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_datos.view.*
 
 
-class DatosAdapter(val items: ArrayList<Pelicula>, val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+class DatosAdapterSeries(val items: ArrayList<Serie>, val context: Context) : RecyclerView.Adapter<ViewHolder>() {
 
     // Obtiene el número de datos
     override fun getItemCount(): Int {
@@ -50,13 +50,4 @@ class DatosAdapter(val items: ArrayList<Pelicula>, val context: Context) : Recyc
             imagen = imagen.replace("http://", "https://")
         Picasso.with(context).load(imagen).into(this)
     }
-}
-
-class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    // Mantiene el TextView
-    val tvDatosA = view.textViewTitulo
-    val tvDatosB = view.textViewAnno
-    val tvDatosC = view.textViewId
-    val ivDatos = view.ivDato
-    val view = view
 }

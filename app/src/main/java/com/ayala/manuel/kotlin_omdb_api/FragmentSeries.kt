@@ -15,7 +15,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_recycler.*
+import kotlinx.android.synthetic.main.fragment_peliculas.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,13 +31,13 @@ private const val ARG_PARAM1 = "param1"
  * create an instance of this fragment.
  *
  */
-class RecyclerFragment : Fragment() {
+class FragmentSeries : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
-    var datos: ArrayList<Pelicula> = ArrayList()
-    var datosPeliculas: PeliculaArray = PeliculaArray()
+    var datos: ArrayList<Serie> = ArrayList()
+    var datosSeries: SerieArray = SerieArray()
 
     var contador: Int = 1
     var busqueda: String = ""
@@ -52,9 +52,7 @@ class RecyclerFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recycler, container, false)
-
-
+        return inflater.inflate(R.layout.fragment_peliculas, container, false)
     }
 
 
@@ -63,10 +61,12 @@ class RecyclerFragment : Fragment() {
         //addDatos()
         recyclerViewFragment.layoutManager = LinearLayoutManager(context)
         recyclerViewFragment.layoutManager = GridLayoutManager(context, 1)
-        recyclerViewFragment.adapter = DatosAdapter(datos, context!!)
+        recyclerViewFragment.adapter = DatosAdapterSeries(datos, context!!)
         button_previous.setOnClickListener { botonMenosPeliculas() }
         button_next.setOnClickListener { botonMasPeliculas() }
         buttonSearch.setOnClickListener { botonBuscar() }
+        button_previous.text = getString(R.string.previous_series)
+        button_next.text = getString(R.string.next_series)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,7 +78,7 @@ class RecyclerFragment : Fragment() {
         contador = 1
         busqueda = editTextSearch.text.toString()
         datos = ArrayList()
-        recyclerViewFragment.adapter = DatosAdapter(ArrayList(), context!!)
+        recyclerViewFragment.adapter = DatosAdapterSeries(ArrayList(), context!!)
         solicitudHTTPVolley(prepararUrl("listado", busqueda, contador, ""))
     }
 
@@ -98,13 +98,13 @@ class RecyclerFragment : Fragment() {
         }
     }
 
-    fun addDatos(lista: PeliculaArray) {
+    fun addDatos(lista: SerieArray) {
         datos = ArrayList()
-        for (item in lista.peliculas!!.iterator()) {
-            var pelicula: Pelicula = Pelicula(item.Title, item.Year, item.imdbID, item.Type, item.Poster)
-            datos.add(pelicula)
+        for (item in lista.series!!.iterator()) {
+            var serie: Serie = Serie(item.Title, item.Year, item.imdbID, item.Type, item.Poster)
+            datos.add(serie)
         }
-        recyclerViewFragment.adapter = DatosAdapter(datos, context!!)
+        recyclerViewFragment.adapter = DatosAdapterSeries(datos, context!!)
     }
 
     /*
@@ -119,8 +119,8 @@ class RecyclerFragment : Fragment() {
                 Log.d("resultado", response)
                 respuestaJson = response.toString()
                 val gson = Gson()
-                datosPeliculas = gson.fromJson(respuestaJson, PeliculaArray::class.java)
-                addDatos(datosPeliculas)
+                datosSeries = gson.fromJson(respuestaJson, SerieArray::class.java)
+                addDatos(datosSeries)
 
             } catch (e: Exception) {
                 Log.d("solicitudHTTPVolley", e.toString())
@@ -134,21 +134,21 @@ class RecyclerFragment : Fragment() {
         var busquedaShadow = busqueda
         if (tipoPeticion.equals("listado")) {
             busquedaShadow = busquedaShadow.replace(" ", "+")
-            url = "http://iesayala.ddns.net/jaidis/omdb-movie.php?s=" + busquedaShadow + "&page=" + pagina
+            url = "http://iesayala.ddns.net/jaidis/omdb-serie.php?s=" + busquedaShadow + "&page=" + pagina
         } else {
             url = "http://www.omdbapi.com/?apikey=" + BuildConfig.API_KEY + "&i=" + imdb + "&plot=full"
         }
         return url
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        if (context is OnFragmentInteractionListener) {
+//            listener = context
+//        } else {
+//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+//        }
+//    }
 
     override fun onDetach() {
         super.onDetach()
@@ -183,7 +183,7 @@ class RecyclerFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String) =
-                RecyclerFragment().apply {
+                FragmentSeries().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                     }

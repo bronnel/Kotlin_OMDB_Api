@@ -16,18 +16,8 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import android.widget.ImageView
-import com.squareup.picasso.Picasso
-import android.widget.Toast
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.google.gson.Gson
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, RecyclerFragment.OnFragmentInteractionListener {
-    var peticion: String = ""
-    var respuestaJson: String = ""
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, FragmentPeliculas.OnFragmentInteractionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,13 +35,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-    }
-
-    fun cargarFragment() {
-        supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.content_main, RecyclerFragment.newInstance("Nothing to do here"), "rageComicList")
-                .commit()
     }
 
     override fun onBackPressed() {
@@ -81,15 +64,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.recycler_view -> {
+            R.id.inicio -> {
+                Snackbar.make(nav_view, "Inicio", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+            }
+            R.id.buscarPeliculas -> {
                 if (Network.comprobarRed(this)) {
-                    cargarFragment()
+                    supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.content_main, FragmentPeliculas.newInstance("Nothing to do here"), "rageComicList")
+                            .commit()
                 } else {
                     //Mostrar mensaje de error
-                    Toast.makeText(this, "No hay red", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(nav_view, R.string.not_internet, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
                 }
             }
-            R.id.nav_gallery -> {
+            R.id.buscarSeries -> {
+                if (Network.comprobarRed(this)) {
+                    supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.content_main, FragmentSeries.newInstance("Nothing to do here"), "rageComicList")
+                            .commit()
+                } else {
+                    //Mostrar mensaje de error
+                    Snackbar.make(nav_view, R.string.not_internet, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                }
+            }
+/*            R.id.nav_gallery -> {
 
             }
             R.id.nav_slideshow -> {
@@ -103,7 +106,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_send -> {
 
-            }
+            }*/
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -112,10 +115,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onFragmentInteraction(uri: Uri) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun ImageView.loadUrl(url: String) {
-        Picasso.with(context).load(url).into(this)
     }
 
 }
