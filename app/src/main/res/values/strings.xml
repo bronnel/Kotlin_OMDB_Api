@@ -1,11 +1,22 @@
 <resources>
-    <string name="app_name">Kotlin OMDB Api</string>
+    <string name="app_name">OMDB Api Kotlin</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Kotlin OMDB Api</string>
+    <string name="nav_header_title">OMDB Api Kotlin</string>
     <string name="nav_header_subtitle">manmunlop@gmail.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="more_movies">More movies</string>
+    <string name="previous_movies">Previous movies</string>
+    <string name="more_movies">Next movies</string>
     <string name="search">Search</string>
+    <string name="tv_movie_title">Title</string>
+    <string name="tv_movie_year">Year</string>
+    <string name="tv_movie_runtime">Runtime</string>
+    <string name="tv_movie_genre">Genre/s</string>
+    <string name="tv_movie_director">Director/s</string>
+    <string name="tv_movie_writer">Writer/s</string>
+    <string name="tv_movie_actors">Actor/s</string>
+    <string name="tv_movie_awards">Awards</string>
+    <string name="tv_movie_metascore">Metascore</string>
+    <string name="tv_movie_plot">Plot</string>
 </resources>

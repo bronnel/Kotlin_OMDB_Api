@@ -37,7 +37,7 @@ class RecyclerFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
 
     var datos: ArrayList<Pelicula> = ArrayList()
-    var datosPeliculas : PeliculaArray = PeliculaArray()
+    var datosPeliculas: PeliculaArray = PeliculaArray()
 
     var contador: Int = 1
     var busqueda: String = ""
@@ -62,40 +62,46 @@ class RecyclerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         //addDatos()
         recyclerViewFragment.layoutManager = LinearLayoutManager(context)
-        recyclerViewFragment.layoutManager = GridLayoutManager(context,1)
-        recyclerViewFragment.adapter=DatosAdapter(datos,context!!)
-        button.setOnClickListener { botonMasPeliculas() }
+        recyclerViewFragment.layoutManager = GridLayoutManager(context, 1)
+        recyclerViewFragment.adapter = DatosAdapter(datos, context!!)
+        button_previous.setOnClickListener { botonMenosPeliculas() }
+        button_next.setOnClickListener { botonMasPeliculas() }
         buttonSearch.setOnClickListener { botonBuscar() }
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
     }
 
-    fun botonBuscar(){
+    fun botonBuscar() {
         contador = 1
         busqueda = editTextSearch.text.toString()
         datos = ArrayList()
         recyclerViewFragment.adapter = DatosAdapter(ArrayList(), context!!)
         solicitudHTTPVolley(prepararUrl("listado", busqueda, contador, ""))
-        contador++
     }
 
-    fun botonMasPeliculas(){
-        if (!busqueda.equals(""))
-        {
+    fun botonMenosPeliculas() {
+        if (!busqueda.equals("")) {
+            contador--
+            if (contador <= 1)
+                contador = 1
             solicitudHTTPVolley(prepararUrl("listado", busqueda, contador, ""))
-            contador++
         }
     }
 
-    fun addDatos(lista : PeliculaArray){
+    fun botonMasPeliculas() {
+        if (!busqueda.equals("")) {
+            contador++
+            solicitudHTTPVolley(prepararUrl("listado", busqueda, contador, ""))
+        }
+    }
+
+    fun addDatos(lista: PeliculaArray) {
+        datos = ArrayList()
         for (item in lista.peliculas!!.iterator()) {
-            if (item.Poster.equals("N/A"))
-                item.Poster = "http://iesayala.ddns.net/jaidis/not-found.jpg"
-            else
-                item.Poster = item.Poster.replace("http://", "https://")
-            var pelicula : Pelicula = Pelicula(item.Title, item.Year, item.imdbID, item.Type, item.Poster)
+            var pelicula: Pelicula = Pelicula(item.Title, item.Year, item.imdbID, item.Type, item.Poster)
             datos.add(pelicula)
         }
         recyclerViewFragment.adapter = DatosAdapter(datos, context!!)
@@ -128,7 +134,7 @@ class RecyclerFragment : Fragment() {
         var busquedaShadow = busqueda
         if (tipoPeticion.equals("listado")) {
             busquedaShadow = busquedaShadow.replace(" ", "+")
-            url = "http://iesayala.ddns.net/jaidis/omdb.php?s=" + busquedaShadow + "&page=" + pagina
+            url = "http://iesayala.ddns.net/jaidis/omdb-movie.php?s=" + busquedaShadow + "&page=" + pagina
         } else {
             url = "http://www.omdbapi.com/?apikey=" + BuildConfig.API_KEY + "&i=" + imdb + "&plot=full"
         }

@@ -6,6 +6,8 @@ data class PeliculaExtendida(
         var Runtime: String = "",
         var Genre: String = "",
         var Director: String = "",
+        var Writer: String = "",
+        var Actors: String = "",
         var Plot: String = "",
         var Awards: String = "",
         var Poster: String = "",
