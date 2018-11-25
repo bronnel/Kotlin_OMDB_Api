@@ -15,7 +15,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.fragment_peliculas.*
+import kotlinx.android.synthetic.main.fragment_favoritos.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,16 +31,13 @@ private const val ARG_PARAM1 = "param1"
  * create an instance of this fragment.
  *
  */
-class FragmentPeliculas : Fragment() {
+class FragmentFavoritos : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
-    var datos: ArrayList<Pelicula> = ArrayList()
-    var datosPeliculas: PeliculaArray = PeliculaArray()
-
-    var contador: Int = 1
-    var busqueda: String = ""
+    var datos: ArrayList<Favoritos> = ArrayList()
+    var datosFavoritos: FavoritosArray = FavoritosArray()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,66 +49,43 @@ class FragmentPeliculas : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_peliculas, container, false)
-
-
+        return inflater.inflate(R.layout.fragment_favoritos, container, false)
     }
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        //addDatos()
-        recyclerViewFragment.layoutManager = LinearLayoutManager(context)
-        recyclerViewFragment.layoutManager = GridLayoutManager(context, 1)
-        recyclerViewFragment.adapter = DatosAdapter(datos, context!!)
-        button_previous.setOnClickListener { botonMenosPeliculas() }
-        button_next.setOnClickListener { botonMasPeliculas() }
-        buttonSearch.setOnClickListener { botonBuscar() }
+        recyclerViewFragmentFavoritos.layoutManager = LinearLayoutManager(context)
+        recyclerViewFragmentFavoritos.layoutManager = GridLayoutManager(context, 1)
+        recyclerViewFragmentFavoritos.adapter = DatosAdapterFavoritos(datos, context!!)
+        buscarFavoritos()
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
         listener?.onFragmentInteraction(uri)
     }
 
-    fun botonBuscar() {
-        contador = 1
-        busqueda = editTextSearch.text.toString()
+    fun buscarFavoritos() {
         datos = ArrayList()
-        recyclerViewFragment.adapter = DatosAdapter(ArrayList(), context!!)
-        solicitudHTTPVolley(prepararUrl("listado", busqueda, contador, ""))
+        recyclerViewFragmentFavoritos.adapter = DatosAdapterSeries(ArrayList(), context!!)
+        solicitudHTTPVolleyGet("http://iesayala.ddns.net/jaidis/omdb-favoritos.php")
     }
 
-    fun botonMenosPeliculas() {
-        if (!busqueda.equals("")) {
-            contador--
-            if (contador <= 1)
-                contador = 1
-            solicitudHTTPVolley(prepararUrl("listado", busqueda, contador, ""))
-        }
-    }
-
-    fun botonMasPeliculas() {
-        if (!busqueda.equals("")) {
-            contador++
-            solicitudHTTPVolley(prepararUrl("listado", busqueda, contador, ""))
-        }
-    }
-
-    fun addDatos(lista: PeliculaArray) {
+    fun addDatos(lista: FavoritosArray) {
         datos = ArrayList()
-        for (item in lista.peliculas!!.iterator()) {
-            var pelicula: Pelicula = Pelicula(item.Title, item.Year, item.imdbID, item.Type, item.Poster)
-            datos.add(pelicula)
+        for (item in lista.favoritos!!.iterator()) {
+            var favoritos: Favoritos = Favoritos(item.Title, item.Year, item.imdbID, item.Type, item.Poster)
+            datos.add(favoritos)
         }
-        recyclerViewFragment.adapter = DatosAdapter(datos, context!!)
+        recyclerViewFragmentFavoritos.adapter = DatosAdapterFavoritos(datos, context!!)
     }
 
     /*
     Libreria para la petición HTTP Volley
     */
 
-    fun solicitudHTTPVolley(url: String) {
+    fun solicitudHTTPVolleyGet(url: String) {
         var respuestaJson = ""
         val queue = Volley.newRequestQueue(getActivity()?.getApplicationContext())
         val solicitud = StringRequest(Request.Method.GET, url, Response.Listener<String> { response ->
@@ -119,8 +93,8 @@ class FragmentPeliculas : Fragment() {
 //                Log.d("resultado", response)
                 respuestaJson = response.toString()
                 val gson = Gson()
-                datosPeliculas = gson.fromJson(respuestaJson, PeliculaArray::class.java)
-                addDatos(datosPeliculas)
+                datosFavoritos = gson.fromJson(respuestaJson, FavoritosArray::class.java)
+                addDatos(datosFavoritos)
 
             } catch (e: Exception) {
                 Log.d("solicitudHTTPVolley", e.toString())
@@ -129,26 +103,15 @@ class FragmentPeliculas : Fragment() {
         queue.add(solicitud)
     }
 
-    fun prepararUrl(tipoPeticion: String = "", busqueda: String = "", pagina: Int = 1, imdb: String = ""): String {
-        var url: String
-        var busquedaShadow = busqueda
-        if (tipoPeticion.equals("listado")) {
-            busquedaShadow = busquedaShadow.replace(" ", "+")
-            url = "http://iesayala.ddns.net/jaidis/omdb-movie.php?s=" + busquedaShadow + "&page=" + pagina
-        } else {
-            url = "http://www.omdbapi.com/?apikey=" + BuildConfig.API_KEY + "&i=" + imdb + "&plot=full"
-        }
-        return url
-    }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        if (context is OnFragmentInteractionListener) {
+//            listener = context
+//        } else {
+//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+//        }
+//    }
 
     override fun onDetach() {
         super.onDetach()
@@ -183,7 +146,7 @@ class FragmentPeliculas : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String) =
-                FragmentPeliculas().apply {
+                FragmentFavoritos().apply {
                     arguments = Bundle().apply {
                         putString(ARG_PARAM1, param1)
                     }

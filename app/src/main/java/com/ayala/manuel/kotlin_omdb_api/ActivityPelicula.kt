@@ -1,5 +1,6 @@
 package com.ayala.manuel.kotlin_omdb_api
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -22,7 +23,7 @@ class ActivityPelicula : AppCompatActivity() {
 
         if (bundle != null) {
             val imdb = bundle.getString("imdb")
-            Log.d("PELICULA-EXTENDIDA", imdb)
+//            Log.d("PELICULA-EXTENDIDA", imdb)
             solicitudHTTPVolley(prepararUrl("pelicula", "", 1, imdb))
         }
     }
@@ -58,6 +59,9 @@ class ActivityPelicula : AppCompatActivity() {
         Picasso.with(context).load(imagen).into(this)
     }
 
+    fun favoriteJson(){
+
+    }
     /*
     Libreria para la petición HTTP Volley
     */
@@ -67,7 +71,7 @@ class ActivityPelicula : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         val solicitud = StringRequest(Request.Method.GET, url, Response.Listener<String> { response ->
             try {
-                Log.d("resultado", response)
+//                Log.d("resultado", response)
                 respuestaJson = response.toString()
                 val gson = Gson()
                 val x = gson.fromJson(respuestaJson, PeliculaExtendida::class.java)
@@ -90,6 +94,23 @@ class ActivityPelicula : AppCompatActivity() {
             url = "http://www.omdbapi.com/?apikey=" + BuildConfig.API_KEY + "&i=" + imdb + "&plot=full"
         }
         return url
+    }
+
+    fun solicitudHTTPVolleyPost(url: String) {
+        val queue = Volley.newRequestQueue(this)
+        val solicitud = StringRequest(Request.Method.GET, url, Response.Listener<String> { response ->
+            try {
+                Log.d("resultado", response)
+//                respuestaJson = response.toString()
+//                val gson = Gson()
+//                datosFavoritos = gson.fromJson(respuestaJson, FavoritosArray::class.java)
+//                addDatos(datosFavoritos)
+
+            } catch (e: Exception) {
+                Log.d("solicitudHTTPVolley", e.toString())
+            }
+        }, Response.ErrorListener { })
+        queue.add(solicitud)
     }
 
 }

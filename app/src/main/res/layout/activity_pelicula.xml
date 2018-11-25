@@ -26,6 +26,16 @@
                 android:scaleType="centerCrop"
                 android:textAlignment="center" />
 
+            <ImageButton
+                android:id="@+id/saveFavorite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="12dp"
+                android:background="@android:color/background_light"
+                app:srcCompat="@android:drawable/btn_star_big_off" />
+
             <TextView
                 android:id="@+id/tv_movie_title"
                 android:layout_width="match_parent"

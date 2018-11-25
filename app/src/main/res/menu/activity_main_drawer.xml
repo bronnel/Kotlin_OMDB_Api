@@ -16,6 +16,10 @@
             android:id="@+id/buscarSeries"
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/navigation_series" />
+        <item
+            android:id="@+id/favoritos"
+            android:icon="@android:drawable/ic_menu_save"
+            android:title="@string/navigation_favorites" />
         <!--<item-->
         <!--android:id="@+id/nav_manage"-->
         <!--android:icon="@drawable/ic_menu_manage"-->

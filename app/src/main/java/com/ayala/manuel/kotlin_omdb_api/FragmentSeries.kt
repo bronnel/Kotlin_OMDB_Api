@@ -116,7 +116,7 @@ class FragmentSeries : Fragment() {
         val queue = Volley.newRequestQueue(getActivity()?.getApplicationContext())
         val solicitud = StringRequest(Request.Method.GET, url, Response.Listener<String> { response ->
             try {
-                Log.d("resultado", response)
+//                Log.d("resultado", response)
                 respuestaJson = response.toString()
                 val gson = Gson()
                 datosSeries = gson.fromJson(respuestaJson, SerieArray::class.java)

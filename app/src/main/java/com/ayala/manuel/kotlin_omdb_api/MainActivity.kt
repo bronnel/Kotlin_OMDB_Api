@@ -33,8 +33,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-
         nav_view.setNavigationItemSelectedListener(this)
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.content_main, FragmentHome.newInstance("Nothing to do here"), "rageComicList")
+                .commit()
     }
 
     override fun onBackPressed() {
@@ -65,8 +68,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.inicio -> {
-                Snackbar.make(nav_view, "Inicio", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
+//                Snackbar.make(nav_view, "Inicio", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show()
+                supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.content_main, FragmentHome.newInstance("Nothing to do here"), "rageComicList")
+                        .commit()
             }
             R.id.buscarPeliculas -> {
                 if (Network.comprobarRed(this)) {
@@ -92,10 +99,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                             .setAction("Action", null).show()
                 }
             }
-/*            R.id.nav_gallery -> {
-
+            R.id.favoritos -> {
+                if (Network.comprobarRed(this)) {
+                    supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.content_main, FragmentFavoritos.newInstance("Nothing to do here"), "rageComicList")
+                            .commit()
+                } else {
+                    //Mostrar mensaje de error
+                    Snackbar.make(nav_view, R.string.not_internet, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                }
             }
-            R.id.nav_slideshow -> {
+            /*  R.id.nav_slideshow -> {
 
             }
             R.id.nav_manage -> {

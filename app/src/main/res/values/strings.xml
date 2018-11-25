@@ -10,6 +10,7 @@
     <string name="navigation_home">Home</string>
     <string name="navigation_movies">Search movies</string>
     <string name="navigation_series">Search series</string>
+    <string name="navigation_favorites">Favorites</string>
     <string name="search">Search</string>
     <string name="previous_movies">Previous movies</string>
     <string name="next_movies">Next movies</string>
