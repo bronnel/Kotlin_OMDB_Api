@@ -52,6 +52,11 @@ class FragmentFavoritos : Fragment() {
         return inflater.inflate(R.layout.fragment_favoritos, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        buscarFavoritos()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         recyclerViewFragmentFavoritos.layoutManager = LinearLayoutManager(context)

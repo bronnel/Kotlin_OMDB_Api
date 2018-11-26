@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,8 +54,6 @@ class FragmentPeliculas : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_peliculas, container, false)
-
-
     }
 
 
@@ -67,6 +66,14 @@ class FragmentPeliculas : Fragment() {
         button_previous.setOnClickListener { botonMenosPeliculas() }
         button_next.setOnClickListener { botonMasPeliculas() }
         buttonSearch.setOnClickListener { botonBuscar() }
+        editTextSearch.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER ) {
+                //Perform Code
+                botonBuscar()
+                return@OnKeyListener true
+            }
+            false
+        })
     }
 
     // TODO: Rename method, update argument and hook method into UI event

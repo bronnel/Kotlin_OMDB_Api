@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,6 +68,14 @@ class FragmentSeries : Fragment() {
         buttonSearch.setOnClickListener { botonBuscar() }
         button_previous.text = getString(R.string.previous_series)
         button_next.text = getString(R.string.next_series)
+        editTextSearch.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER ) {
+                //Perform Code
+                botonBuscar()
+                return@OnKeyListener true
+            }
+            false
+        })
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -44,13 +44,13 @@ class ActivityPelicula : AppCompatActivity() {
         //Realizar petición a la base de datos para comprobar que el item esta guardado en favoritos
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-//        val i = Intent(Intent.ACTION_MAIN)
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        finish()
-    }
+//    override fun onBackPressed() {
+//        super.onBackPressed()
+////        val i = Intent(Intent.ACTION_MAIN)
+////        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+////        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//        finish()
+//    }
 
     fun vista(peliculaExtendida: PeliculaExtendida) {
         movie_poster.loadUrl(peliculaExtendida.Poster)
