@@ -11,6 +11,7 @@ data class PeliculaExtendida(
         var Plot: String = "",
         var Awards: String = "",
         var Poster: String = "",
-        var Metascore: String = ""
+        var Metascore: String = "",
+        var Type : String = ""
 
 )
