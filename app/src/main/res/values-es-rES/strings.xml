@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OMDB Api Kotlin</string>
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+    <string name="nav_header_title">Menú</string>
+    <string name="nav_header_subtitle">manmunlop@gmail.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="not_internet">Por favor, comprueba la conexión a internet</string>
+    <string name="navigation_home">Home</string>
+    <string name="navigation_movies">Buscar peliculas</string>
+    <string name="navigation_series">Buscar series</string>
+    <string name="navigation_favorites">Favoritos</string>
+    <string name="search">Buscar</string>
+    <string name="previous_movies">Anteriores peliculas</string>
+    <string name="next_movies">Siguientes peliculas</string>
+    <string name="previous_series">Anteriores series</string>
+    <string name="next_series">Siguientes series</string>
+    <string name="tv_movie_title">Título</string>
+    <string name="tv_movie_year">Año</string>
+    <string name="tv_movie_runtime">Duración</string>
+    <string name="tv_movie_genre">Género/s</string>
+    <string name="tv_movie_director">Director/es</string>
+    <string name="tv_movie_writer">Escritor/es</string>
+    <string name="tv_movie_actors">Actor/es</string>
+    <string name="tv_movie_awards">Premios</string>
+    <string name="tv_movie_metascore">Metascore</string>
+    <string name="tv_movie_plot">Argumento</string>
+</resources>
